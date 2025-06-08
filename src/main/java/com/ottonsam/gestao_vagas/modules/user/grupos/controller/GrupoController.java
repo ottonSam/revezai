@@ -1,9 +1,11 @@
 package com.ottonsam.gestao_vagas.modules.user.grupos.controller;
 
+import com.ottonsam.gestao_vagas.modules.user.grupos.dto.ConviteRequest;
 import com.ottonsam.gestao_vagas.modules.user.grupos.model.Grupo;
 import com.ottonsam.gestao_vagas.modules.user.grupos.service.GrupoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,5 +40,30 @@ public class GrupoController {
     @DeleteMapping("/{id}")
     public void deletarGrupo(@PathVariable Long id) {
         grupoService.deletarGrupo(id);
+    }
+
+     @PostMapping("/convidar")
+    public void convidarUsuario(@RequestBody ConviteRequest conviteRequest) {
+        grupoService.convidarUsuario(conviteRequest.getGrupoId(), conviteRequest.getUsuarioId());
+    }
+
+    @PostMapping("/convite/{id}/aceitar")
+    public void aceitarConvite(@PathVariable Long id) {
+        grupoService.aceitarConvite(id);
+    }
+
+    @PostMapping("/convite/{id}/recusar")
+    public void recusarConvite(@PathVariable Long id) {
+        grupoService.recusarConvite(id);
+    }
+
+    @PostMapping("/{grupoId}/convidar/{userId}")
+public ResponseEntity<String> convidarUsuarioParaGrupo(@PathVariable Long grupoId, @PathVariable Long userId) {
+    try {
+        grupoService.adicionarUsuarioAoGrupo(grupoId, userId);
+        return ResponseEntity.ok("Usuário adicionado ao grupo com sucesso!");
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
+        }
     }
 }

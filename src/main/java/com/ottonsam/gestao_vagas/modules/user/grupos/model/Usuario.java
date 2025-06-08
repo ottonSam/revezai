@@ -4,19 +4,17 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "grupo")
-public class Grupo {
+@Table(name = "usuario")
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-    
-    private String descricao;
 
-    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
-    private List<GrupoUsuario> membros;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<GrupoUsuario> grupos;
 
     // Getters e Setters
 
@@ -36,11 +34,11 @@ public class Grupo {
         this.nome = nome;
     }
 
-    public List<GrupoUsuario> getMembros() {
-        return membros;
+    public List<GrupoUsuario> getGrupos() {
+        return grupos;
     }
 
-    public void setMembros(List<GrupoUsuario> membros) {
-        this.membros = membros;
+    public void setGrupos(List<GrupoUsuario> grupos) {
+        this.grupos = grupos;
     }
 }
